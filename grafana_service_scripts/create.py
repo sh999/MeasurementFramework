@@ -1,20 +1,20 @@
 import os
 from os.path import exists
 
+from grafanaInterface import GrafanaManager
+
 # Grafana Host
 DEFAULT_GRAFANA_HOST = 'localhost'
-
-# File location for Grafana username and password
-DEFAULT_USER_INFO_LOCATION = ''
+# File location for Grafana admin username and password
+DEFAULT_ADMIN_INFO_LOCATION = ''
 # Default configuration file path
 DEFAULT_CONFIG_FILE_PATH = '/home/mfuser/services/grafana_dashboard/grafanaConfig.txt'
 # Default configuration file delimiter
 DEFAULT_CONFIG_FILE_DELIMITER = '-'
-
-# Remote repository containing Grafana Interface
-GITHUB_REPO = 'https://github.com/glitchkyle/GrafanaManager.git'
-# Remote repository destination directory
-GITHUB_REPO_DESTINATION = '/home/mfuser/services/grafana_dashboard/GrafanaManager'
+# Default user information file path
+DEFAULT_USER_INFORMATION_PATH = '/home/mfuser/services/grafana_dashboard/userInfo.txt'
+# Default user information file delimiter
+DEFAULT_USER_INFORMATION_DELIMITER = '='
 
 def getAdminInformation(infoFile):
     """
@@ -38,31 +38,30 @@ def main():
         "msg": None
     }
 
-    grafanaAdminUsername, grafanaAdminPassword = getAdminInformation(DEFAULT_USER_INFO_LOCATION)
-
-    # Clone GrafanaManager Repository if it does not exist
-    if not exists(GITHUB_REPO_DESTINATION):
-        os.system(f'sudo git clone {GITHUB_REPO} {GITHUB_REPO_DESTINATION}')
-
-    from GrafanaManager.grafanaInterface import GrafanaManager
-
-    if not exists(GITHUB_REPO_DESTINATION):
-       response['msg'] = "Failed to clone Grafana Manager repository."
-       return response
+    grafanaAdminUsername, grafanaAdminPassword = getAdminInformation(DEFAULT_ADMIN_INFO_LOCATION)
 
     # Create new Grafana Manager object
-    interface = GrafanaManager(DEFAULT_GRAFANA_HOST, grafanaAdminUsername, grafanaAdminPassword)
+    interface = GrafanaManager(
+        DEFAULT_GRAFANA_HOST, 
+        grafanaAdminUsername, 
+        grafanaAdminPassword, 
+        DEFAULT_USER_INFORMATION_PATH, 
+        DEFAULT_USER_INFORMATION_DELIMITER
+    )
 
     # Create new API token
     tokenCreationStatus = interface.createAdminToken()
 
     # Check if new API token creation was successful
-    if tokenCreationStatus['success'] == True:
+    if tokenCreationStatus['success']:
 
         # Create Config File
-        configFileCreationStatus = interface.createConfigFile(DEFAULT_CONFIG_FILE_PATH, DEFAULT_CONFIG_FILE_DELIMITER)
+        configFileCreationStatus = interface.createConfigFile(
+            DEFAULT_CONFIG_FILE_PATH, 
+            DEFAULT_CONFIG_FILE_DELIMITER
+        )
 
-        if configFileCreationStatus['success'] == True:
+        if configFileCreationStatus['success']:
             response['success'] =  True
             response['msg'] = configFileCreationStatus['msg']
         else:

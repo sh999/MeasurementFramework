@@ -1,4 +1,4 @@
-from GrafanaManager.grafanaInterface import GrafanaManager
+from grafanaInterface import GrafanaManager
 
 # Default location for uploaded JSON dashboards
 DEFAULT_DASHBOARD_DIRECTORY = '/home/mfuser/services/grafana_dashboard/files'

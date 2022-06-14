@@ -62,13 +62,13 @@
 
 
 # ipv4
-- name: Setup the docker network to be used by the monitoring containers.
-  include_tasks: setup_tasks/setup_docker_network_tasks.yml
+# - name: Setup the docker network to be used by the monitoring containers.
+#   include_tasks: setup_tasks/setup_docker_network_tasks.yml
 
  
 # ipv6 network settings (ipv4 will still exist by default)
-#- name: Setup the docker network to be used by the monitoring containers.
-#  include_tasks: setup_tasks/setup_docker_ipv6_network_tasks.yml
+- name: Setup the docker network to be used by the monitoring containers.
+  include_tasks: setup_tasks/setup_docker_ipv6_network_tasks.yml
 
 ####################
 # Backup all base install directories #

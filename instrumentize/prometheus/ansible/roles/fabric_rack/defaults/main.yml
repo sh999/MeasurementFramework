@@ -116,7 +116,10 @@ thanos_cert: "{{ host_cert }}"
 thanos_key: "{{ host_key }}"
 thanos_interm_cert: "{{ host_interm_cert }}"
 
-thanos_sidecar_ip: "{{ hn_public_ipaddr }}"
+
+# hardcoded test for ipv6
+thanos_sidecar_ip: "{{ hn_public_ipaddr_ipv6 }}"
+#thanos_sidecar_ip: "{{ hn_public_ipaddr }}"
 thanos_sidecar_cert: "{{ thanos_cert }}"
 thanos_sidecar_key: "{{ thanos_key }}"
 

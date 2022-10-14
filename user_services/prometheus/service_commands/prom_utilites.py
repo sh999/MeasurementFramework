@@ -9,6 +9,8 @@ import glob
 import string
 import random
 
+import requests 
+
 
 service_dir = os.path.join(os.path.expanduser('~') ,"services", "prometheus")
 
@@ -16,6 +18,26 @@ data_filename = os.path.join(service_dir, "data", "data.json" )
 extra_files_dir = os.path.join(service_dir, "extra_files")
 ansible_out_dir = os.path.join(service_dir, "ansible_out")
 install_vars_file = os.path.join(extra_files_dir, "install_vars.json")
+
+# need to pip install prometheus_client
+from prometheus_client.parser import text_string_to_metric_families
+
+def get_node_metrics(node):
+    install_vars = get_install_vars()
+    user = install_vars["node_exporter_username"]
+    password = install_vars["node_exporter_password"]
+    r = requests.get('https://10.0.0.1:9100/metrics', auth=(user,password), verify=False)
+    if r.status_code == 200:
+        with open(os.path.join(extra_files_dir, "node_metrics.txt"),'w') as f:
+                f.writelines(r.text)
+    return r.text
+
+    for family in text_string_to_metric_families(r.text):
+      for sample in family.samples:
+        print("Name: {0} Labels: {1} Value: {2}".format(*sample))
+
+    return text_string_to_metric_families(r.text)
+
 
 def get_data():
     # Get incoming data which will be in the data.json file.
@@ -38,6 +60,7 @@ def get_json_string(data):
     return json_str
 
 
+def get_node_metrics(node):
 
 
 def create_install_vars():

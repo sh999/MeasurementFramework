@@ -1,0 +1,12 @@
+# Thanos sidecar - just proxy to container
+server {
+        listen  10901 ssl http2;
+        listen  [::]:10901
+        server_name {{ hostname }};
+
+        include /etc/nginx/ssl_snippet.conf;
+
+        location / {
+                grpc_pass grpcs://{{ install_name }}_thanos_sidecar:10901;
+        }
+}

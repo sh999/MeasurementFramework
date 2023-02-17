@@ -162,9 +162,11 @@ nginx_ip_ports:
   #- "[{{ hn_public_ipaddr_ipv6 }}]:9090:9090"  # for dual stack racks - #open port will be restricted by iptables to central metric
   #- 10922:10922   # thanos stats
   #- "{{ alertmanager_port }}:{{ alertmanager_port }}"    # alertmanager 
-
-
-
+  
+  # thanos_sidecar_ip grpc proxy
+  - '10901:10901'
+  - '[::]:10901:10901'  
+ 
 nginx_template_dir: templates/Nginx
 
 nginx_server_confd_template_files: 
@@ -173,6 +175,7 @@ nginx_server_confd_template_files:
   - prometheus_localhost.conf
   # For dual stack racks
   #- prometheus_dual.conf
+  - thanos_sidecar_grpc.conf
 
 
 nginx_config_template_files:

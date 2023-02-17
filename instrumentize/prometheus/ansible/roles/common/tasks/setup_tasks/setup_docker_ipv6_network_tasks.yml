@@ -10,7 +10,9 @@
               - subnet: "{{ docker_ipv6_subnet }}"
                 gateway: "{{ docker_ipv6_gateway }}"
               
-              # # Docker will basically do DHCP for ip4
+              # Docker will basically do DHCP for ip4
+              # If you need to force a 172 subnet you can use this, 
+              #  Make sure you are not conficting with an existing network
               # - subnet: 172.22.0.0/16
               #   gateway: 172.22.0.1
   become: yes

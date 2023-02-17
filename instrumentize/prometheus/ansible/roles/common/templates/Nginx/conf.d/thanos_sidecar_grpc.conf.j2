@@ -1,7 +1,7 @@
 # Thanos sidecar - just proxy to container
 server {
         listen  10901 ssl http2;
-        listen  [::]:10901
+        listen  [::]:10901 ssl http2;
         server_name {{ hostname }};
 
         include /etc/nginx/ssl_snippet.conf;

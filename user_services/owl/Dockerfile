@@ -10,7 +10,7 @@ RUN pip install --upgrade pip
 RUN pip install --pre scapy[basic]
 RUN pip install --upgrade psutil
 RUN pip install influxdb_client
-RUN git clone --branch owl  https://github.com/fabric-testbed/MeasurementFramework.git
+RUN git clone --branch owl-sh https://github.com/sh999/MeasurementFramework.git  
 RUN mkdir /owl_output
 RUN mkdir /owl_config
 RUN gcc -fPIC -shared -o /MeasurementFramework/user_services/owl/owl/sock_ops/time_ops/ptp_time.so \

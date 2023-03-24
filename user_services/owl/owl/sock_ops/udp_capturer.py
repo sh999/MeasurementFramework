@@ -88,6 +88,7 @@ class TcpdumpOps:
                 packet_data["seq"] = seq_n
         
                 # For debugging
+                print("Packet data to push to InfluxDB:")
                 print(packet_data)
 
                 # TODO: Push this to InfluxDB
@@ -99,7 +100,19 @@ class TcpdumpOps:
                 client = influxdb_client.InfluxDBClient(url=url, token=token, org=org)
                 bucket="my-bucket"
 
+                print("Writing to InfluxDB...")
                 write_api = client.write_api(write_options=SYNCHRONOUS)
+                point = (
+                      Point("packet")
+                      .tag("sender", packet_data["sender"])
+                      .tag("receiver", packet_data["receiver"])
+                      .field("received", packet_data["received"])
+                      .field("sent", packet_data["sent"])
+                      .field("latency", packet_data["latency"])
+                      .field("seq", packet_data["seq"])
+                    )
+                write_api.write(bucket=bucket, org=org, record=point, precision="ns")
+                print("Done writing to InfluxDB.")
 
 
     def stop(self):

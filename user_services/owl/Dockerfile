@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y tcpdump git build-essential \
 RUN pip install --upgrade pip
 RUN pip install --pre scapy[basic]
 RUN pip install --upgrade psutil
+RUN pip install influxdb_client
 RUN git clone --branch owl  https://github.com/fabric-testbed/MeasurementFramework.git
 RUN mkdir /owl_output
 RUN mkdir /owl_config

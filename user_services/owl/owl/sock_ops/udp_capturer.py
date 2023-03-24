@@ -7,6 +7,10 @@ from decimal import *
 import argparse
 import psutil
 
+import influxdb_client, os, time, random
+from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client.client.write_api import SYNCHRONOUS
+
 # This script must be run as root
 
 
@@ -87,6 +91,16 @@ class TcpdumpOps:
                 print(packet_data)
 
                 # TODO: Push this to InfluxDB
+
+                token = os.environ.get("INFLUXDB_TOKEN")
+                token = 'y-8ivpEOzW9wWzrpkW4us_3L7YRRACX_qtTps-Xk3yzgRxQDwfJRkAboGO-4wrZpMbUBFX1BGC_dsutP44ss2A=='
+                org = "my-org"
+                url = "http://10.0.0.4:8086/"
+                client = influxdb_client.InfluxDBClient(url=url, token=token, org=org)
+                bucket="my-bucket"
+
+                write_api = client.write_api(write_options=SYNCHRONOUS)
+
 
     def stop(self):
         self.p.terminate()

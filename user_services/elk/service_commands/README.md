@@ -11,6 +11,7 @@ Use mflib to get the username and password needed to access Kibana.
 data = {}
 # Set the info you want to get.
 data["get"] = ["nginx_id", "nginx_password"]
+data["get"] = ["index_names"]
 # Call info using service name and data dictionary.
 info_results = mf.info("elk", data)
 print(info_results)

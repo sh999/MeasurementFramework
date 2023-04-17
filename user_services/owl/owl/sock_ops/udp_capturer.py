@@ -109,7 +109,7 @@ class TcpdumpOps:
                       .field("sent", packet_data["sent"])
                       .field("latency", packet_data["latency"])
                       .field("seq", packet_data["seq"])
-                      .time(packet_data["received"]*1000000000)
+                      .time(packet_data["received"])
                     )
                 write_api.write(bucket=bucket, org=org, record=point, precision="ns")
                 print("Done writing to InfluxDB.")
